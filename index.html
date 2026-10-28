@@ -5,12 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Gestão Financeira Compartilhada</title>
   
+  <!-- Fontes e Ícones -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
   
-  <!-- SDKs do Firebase (Modular / Compatibility Version v9+) -->
+  <!-- SDKs do Firebase (Versão Compatível) -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
@@ -64,17 +65,23 @@
           </div>
         </div>
         <div class="header-actions" style="display: flex; gap: 8px;">
+          <!-- Botão Ocultar Valores -->
           <button class="icon-btn" onclick="togglePrivacy()" id="privacy-btn" title="Ocultar Valores">
             <i data-lucide="eye"></i>
           </button>
+          <!-- Botão Sair da Conta -->
           <button class="icon-btn" onclick="logout()" title="Sair da Conta" style="color: var(--danger);">
             <i data-lucide="log-out"></i>
+          </button>
+          <!-- Botão Excluir Conta -->
+          <button class="icon-btn" onclick="deleteMyAccount()" title="Excluir Conta" style="color: var(--danger);">
+            <i data-lucide="user-x"></i>
           </button>
         </div>
       </header>
 
       <main id="main-content" class="content-container">
-        <!-- Conteúdo dinâmico -->
+        <!-- Conteúdo dinâmico montado via JS -->
       </main>
 
       <!-- Navegação Inferior Mobile -->
@@ -107,7 +114,7 @@
     </div>
   </div>
 
-  <!-- Modal Global de Cadastro de Itens -->
+  <!-- Modal Global de Cadastro/Edição de Itens -->
   <div id="modal-container" class="modal-overlay hidden">
     <div class="modal-card">
       <div class="modal-header">
