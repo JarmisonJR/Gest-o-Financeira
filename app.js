@@ -602,3 +602,34 @@ async function deleteItem(collection, id) {
     showToast('Erro ao remover item.', 'error');
   }
 }
+// Função para excluir a conta do usuário atual
+async function deleteMyAccount() {
+  if (!currentUser) return;
+  
+  const confirmacao = confirm("Tem certeza que deseja excluir sua conta e seus dados? Esta ação não pode ser desfeita.");
+  if (!confirmacao) return;
+
+  try {
+    const uid = currentUser.uid;
+
+    // 1. Deletar documentos do usuário no Firestore (opcional: apagar os itens dele)
+    const collections = ['investments', 'caixinhas', 'expenses', 'goals'];
+    for (let col of collections) {
+      const snapshot = await db.collection(col).where('owner', '==', uid).get();
+      const batch = db.batch();
+      snapshot.docs.forEach(doc => batch.delete(doc.ref));
+      await batch.commit();
+    }
+
+    // 2. Deletar o perfil do usuário na coleção 'users'
+    await db.collection('users').doc(uid).delete();
+
+    // 3. Deletar a conta de Autenticação do Firebase
+    await currentUser.delete();
+
+    showToast('Conta excluída com sucesso.', 'success');
+  } catch (error) {
+    console.error("Erro ao excluir conta:", error);
+    showToast('Erro ao excluir conta. Faça login novamente para tentar.', 'error');
+  }
+}
