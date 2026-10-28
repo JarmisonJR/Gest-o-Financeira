@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Gestão Financeira Compartilhada</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- SDKs do Firebase (Modular / Compatibility Version v9+) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Caixa de Mensagem Centralizada (Toast) -->
+    <div id="toast-message" class="toast hidden">
+      <span id="toast-text">Mensagem aqui</span>
+    </div>
+
+    <!-- TELA DE AUTENTICAÇÃO (Login / Cadastro) -->
+    <div id="auth-screen" class="auth-container">
+      <div class="auth-card">
+        <div class="auth-header">
+          <h2>Finanças Compartilhadas 📊</h2>
+          <p id="auth-subtitle">Cadastre-se para acessar sua conta</p>
+        </div>
+        <form id="auth-form" onsubmit="handleAuthSubmit(event)">
+          <div class="form-group" id="name-field-group">
+            <label>Seu Nome</label>
+            <input type="text" id="auth-name" placeholder="Ex: João">
+          </div>
+          <div class="form-group">
+            <label>E-mail</label>
+            <input type="email" id="auth-user" placeholder="Ex: joao@email.com" required>
+          </div>
+          <div class="form-group">
+            <label>Senha</label>
+            <input type="password" id="auth-pass" placeholder="••••••••" required minlength="6">
+          </div>
+          <button type="submit" class="btn-primary" id="auth-submit-btn" style="width: 100%; margin-top: 10px;">Cadastrar</button>
+        </form>
+        <div class="auth-switch">
+          <span id="auth-switch-text">Já tem uma conta?</span>
+          <button type="button" class="link-btn" onclick="toggleAuthMode()">Fazer Login</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- APLICAÇÃO PRINCIPAL -->
+    <div id="main-app" class="hidden" style="display: flex; flex-direction: column; width: 100%;">
+      <header class="topbar">
+        <div class="user-selector">
+          <span class="user-avatar" id="current-avatar">?</span>
+          <div class="user-info">
+            <label>Conectado como</label>
+            <span id="current-username" style="font-weight: 700; font-size: 0.95rem;">Carregando...</span>
+          </div>
+        </div>
+        <div class="header-actions" style="display: flex; gap: 8px;">
+          <button class="icon-btn" onclick="togglePrivacy()" id="privacy-btn" title="Ocultar Valores">
+            <i data-lucide="eye"></i>
+          </button>
+          <button class="icon-btn" onclick="logout()" title="Sair da Conta" style="color: var(--danger);">
+            <i data-lucide="log-out"></i>
+          </button>
+        </div>
+      </header>
+
+      <main id="main-content" class="content-container">
+        <!-- Conteúdo dinâmico -->
+      </main>
+
+      <!-- Navegação Inferior Mobile -->
+      <nav class="bottom-nav">
+        <button class="nav-item active" onclick="switchTab('dashboard')" id="nav-dashboard">
+          <i data-lucide="layout-dashboard"></i>
+          <span>Início</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('investments')" id="nav-investments">
+          <i data-lucide="trending-up"></i>
+          <span>Investir</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('caixinhas')" id="nav-caixinhas">
+          <i data-lucide="archive"></i>
+          <span>Caixinhas</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('expenses')" id="nav-expenses">
+          <i data-lucide="receipt"></i>
+          <span>Gastos</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('goals')" id="nav-goals">
+          <i data-lucide="target"></i>
+          <span>Metas</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('calc')" id="nav-calc">
+          <i data-lucide="calculator"></i>
+          <span>Calc</span>
+        </button>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Modal Global de Cadastro de Itens -->
+  <div id="modal-container" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modal-title">Novo Item</h3>
+        <button class="close-btn" onclick="closeModal()">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+      <form id="modal-form" onsubmit="handleFormSubmit(event)">
+        <div id="modal-fields"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal()">Cancelar</button>
+          <button type="submit" class="btn-primary">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
