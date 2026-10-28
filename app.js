@@ -1,14 +1,14 @@
 // --- CONFIGURAÇÃO DO FIREBASE ---
 // Cole abaixo as chaves obtidas no Firebase Console (Passo 1)
-const firebaseConfig = {
-  apiKey: "SUA_API_KEY",
-  authDomain: "SEU_PROJETO.firebaseapp.com",
-  projectId: "SEU_PROJETO",
-  storageBucket: "SEU_PROJETO.appspot.com",
-  messagingSenderId: "SEU_SENDER_ID",
-  appId: "SEU_APP_ID"
-};
-
+ const firebaseConfig = {
+    apiKey: "AIzaSyCdRy_VrLahlyZ7cehA_bICo0qmm_tJbkM",
+    authDomain: "gestao-financeira-8dd1d.firebaseapp.com",
+    projectId: "gestao-financeira-8dd1d",
+    storageBucket: "gestao-financeira-8dd1d.firebasestorage.app",
+    messagingSenderId: "1044778248900",
+    appId: "1:1044778248900:web:c82a3d27d06b52b4e7f791",
+    measurementId: "G-F3JF63YST2"
+  };
 // Inicializa Firebase
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
